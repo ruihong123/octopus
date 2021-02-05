@@ -11,7 +11,7 @@
 #include "common.hpp"
 
 using namespace std;
-#ifndef __USE_GNU
+#if __GLIBC__ == 2 && __GLIBC_MINOR__ < 30
 static inline uint32_t gettid() {
     return (uint32_t)syscall(SYS_gettid);
 }
