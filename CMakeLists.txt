@@ -3,7 +3,7 @@ project(dmfs)
 
 # Compiler options
 set (CMAKE_C_FLAGS "-Wall -Wno-deprecated-declarations -Wsign-compare")
-set (CMAKE_CXX_FLAGS "-g ${CMAKE_C_FLAGS} -std=c++11 -Wall -O0 -DTHREAD -D_FILE_OFFSET_BITS=64 -libverbs -lfuse")
+set (CMAKE_CXX_FLAGS "-g ${CMAKE_C_FLAGS} -std=c++11 -Wall -O0 -DTHREAD -D_FILE_OFFSET_BITS=64 -lfuse")
 
 option (SANITIZE "Turn on sanitization" OFF)
 if (SANITIZE)
@@ -11,13 +11,19 @@ if (SANITIZE)
 endif()
 
 # Find 3rd party libs
+
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+find_package(ibverbs REQUIRED)
+#include_directories(${IBVERBS_INCLUDE_DIRS})
+link_libraries(${IBVERBS_LIBRARIES})
 find_package(Crypto REQUIRED)
-include_directories(${CRYPTO_INCLUDE_DIR})
+#include_directories(${CRYPTO_INCLUDE_DIR})
+#link_libraries(${CRYPTO_LIBRARIES})
 #message("-------: ${CRYPTO_INCLUDE_DIR}")
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-
+find_package(FUSE REQUIRED)
+link_libraries(${FUSE_LIBRARIES})
 # Incs and Libs
 set(INCLUDE_BASE ${PROJECT_SOURCE_DIR}/include)
 include_directories("/usr/local/ofed/include" ${INCLUDE_BASE})
@@ -39,7 +45,7 @@ find_package(JNI)
 include_directories(${JNI_INCLUDE_DIRS})
 #link_libraries(${JNI_LIBRARIES})
 message("===== ${JNI_INCLUDE_DIRS} =====lib:${JNI_LIBRARIES}")
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -L/usr/local/lib/libfuse.so")
+#set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -L/usr/local/lib/libfuse.so")
 set(CLIENT_BASE ${PROJECT_SOURCE_DIR}/client)
 set(CNET_SRC ${PROJECT_SOURCE_DIR}/src/net)
 set(CLIB_SRC ${PROJECT_SOURCE_DIR}/src/client)
