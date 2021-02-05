@@ -11,11 +11,11 @@
 #include "common.hpp"
 
 using namespace std;
-
-//static inline uint32_t gettid() {
-//    return (uint32_t)syscall(SYS_gettid);
-//}
-
+#ifndef __USE_GNU
+static inline uint32_t gettid() {
+    return (uint32_t)syscall(SYS_gettid);
+}
+#endif
 #define CLIENT_MESSAGE_SIZE 4096
 #define MAX_CLIENT_NUMBER   1024
 #define SERVER_MASSAGE_SIZE CLIENT_MESSAGE_SIZE

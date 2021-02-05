@@ -77,7 +77,7 @@ find_path(
         PATHS "${PC_FUSE_INCLUDE_DIRS}"
         DOC "Include directories for FUSE"
 )
-
+message("Fuse include directory is ${FUSE_INCLUDE_DIRS}")
 if(NOT FUSE_INCLUDE_DIRS)
     set(FUSE_FOUND FALSE)
 endif(NOT FUSE_INCLUDE_DIRS)
