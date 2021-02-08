@@ -197,6 +197,8 @@ void RPCServer::ProcessRequest(GeneralSendBuffer *send, uint16_t NodeID, uint16_
     		while (*value == 0);
     	}
 	Debug::debugItem("Copy Reply Data, size = %d.", size);
+    	//move the contents in receive buff to the send buff,
+    	// because only sned buff is RDMA registerd.
     	memcpy((void *)send, receiveBuffer, size);
 	Debug::debugItem("Select Buffer.");
     	if (NodeID > 0 && NodeID <= ServerCount) {
