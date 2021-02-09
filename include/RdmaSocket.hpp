@@ -178,7 +178,10 @@ public:
 	*@param imm, -1 - RDMA_WRITE, otherwise, - RDMA_WRITE_WITH_IMM
 	*return true on success, false on error.
 	**/
+	// Remote Write -> OutboundHamal (if < 4MB) -> RdmaWrite
+	// (if > 4MB) use multiple thread to transfer the data.
 	bool RdmaWrite(uint16_t NodeID, uint64_t SourceBuffer, uint64_t DesBuffer, uint64_t BufferSize, uint32_t imm, int TaskID);
+	// It seems this function will let the sever read the data through RDMA read.
 	bool _RdmaBatchWrite(uint16_t NodeID, uint64_t SourceBuffer, uint64_t DesBuffer, uint64_t BufferSize, uint32_t imm, int BatchSize);
 	bool RemoteWrite(uint64_t bufferSend, uint16_t NodeID, uint64_t bufferReceive, uint64_t size);
 	bool OutboundHamal(int TaskID, uint64_t bufferSend, uint16_t NodeID, uint64_t bufferReceive, uint64_t size);

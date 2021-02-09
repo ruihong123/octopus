@@ -11,11 +11,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <thread>
+
 #define BUFFER_SIZE 0x1000000
 int myid, file_seq;
 int numprocs;
 nrfs fs;
-char buf[BUFFER_SIZE];
+char buf[10][BUFFER_SIZE];
 int mask = 0;
 int collect_time(int cost)
 {
@@ -49,7 +51,7 @@ void write_test(int size, int op_time)
 	memset(buf, 'a', BUFFER_SIZE);
 
 	MPI_Barrier ( MPI_COMM_WORLD );
-	
+    std::thread* t[10];
 	start = MPI_Wtime();
 	for(i = 0; i < op_time; i++)
 	{
@@ -57,9 +59,13 @@ void write_test(int size, int op_time)
 		nrfsRawWrite(fs, path, buf, size, 0);
 #endif
 #ifdef TEST_NRFS_IO
-		nrfsWrite(fs, path, buf, size, 0);
+        t[i] = new std::thread(nrfsWrite, fs, path, buf[i], size, 0);
+//		nrfsWrite(fs, path, buf[i], size, 0);
 #endif
 	}
+    for(i = 0; i < op_time; i++){
+        t[i]->join();
+    }
 	end = MPI_Wtime();
 
 	MPI_Barrier ( MPI_COMM_WORLD );
@@ -100,15 +106,21 @@ void read_test(int size, int op_time)
 	MPI_Barrier ( MPI_COMM_WORLD );
 	
 	start = MPI_Wtime();
+	std::thread* t[10];
 	for(i = 0; i < op_time; i++)
 	{
 #ifdef TEST_RAW_IO
 		nrfsRawRead(fs, path, buf, size, 0);
 #endif
 #ifdef TEST_NRFS_IO
-		nrfsRead(fs, path, buf, size, 0);
+        t[i] = new std::thread(nrfsRead, fs, path, buf[i], size, 0);
+
+//		nrfsRead(fs, path, buf[i], size, 0);
 #endif
 	}
+    for(i = 0; i < op_time; i++){
+        t[i]->join();
+    }
 	end = MPI_Wtime();
 
 	MPI_Barrier ( MPI_COMM_WORLD );

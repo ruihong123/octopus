@@ -156,9 +156,9 @@ void RPCServer::ProcessQueueRequest() {
 }
 
 void RPCServer::ProcessRequest(GeneralSendBuffer *send, uint16_t NodeID, uint16_t offset) {
-	char receiveBuffer[CLIENT_MESSAGE_SIZE];
-	uint64_t bufferRecv = (uint64_t)send;
-	GeneralReceiveBuffer *recv = (GeneralReceiveBuffer*)receiveBuffer;
+	char receive_temp_Buffer[CLIENT_MESSAGE_SIZE];
+	uint64_t receive_real_Buffer = (uint64_t)send;
+	GeneralReceiveBuffer *recv = (GeneralReceiveBuffer*)receive_temp_Buffer;
 	recv->taskID = send->taskID;
 	recv->message = MESSAGE_RESPONSE;
 	uint64_t size = send->sizeReceiveBuffer;
@@ -178,7 +178,7 @@ void RPCServer::ProcessRequest(GeneralSendBuffer *send, uint16_t NodeID, uint16_
     	// fs->unlockReadHashItem(bufferSend->key, NodeID, bufferSend->offset);
     	return;
 	} else {
-    	fs->parseMessage((char*)send, receiveBuffer);
+    	fs->parseMessage((char*)send, receive_temp_Buffer);
     	// fs->recursivereaddir("/", 0);
 	Debug::debugItem("Contract Receive Buffer, size = %d.", size);
 	size -= ContractReceiveBuffer(send, recv);
@@ -199,17 +199,17 @@ void RPCServer::ProcessRequest(GeneralSendBuffer *send, uint16_t NodeID, uint16_
 	Debug::debugItem("Copy Reply Data, size = %d.", size);
     	//move the contents in receive buff to the send buff,
     	// because only sned buff is RDMA registerd.
-    	memcpy((void *)send, receiveBuffer, size);
+    	memcpy((void *)send, receive_temp_Buffer, size);
 	Debug::debugItem("Select Buffer.");
     	if (NodeID > 0 && NodeID <= ServerCount) {
 			/* Recv Message From Other Server. */
-			bufferRecv = bufferRecv - mm;
+			receive_real_Buffer = receive_real_Buffer - mm;
 		} else if (NodeID > ServerCount) {
 			/* Recv Message From Client. */
-			bufferRecv = 0;
+			receive_real_Buffer = 0;
 		} 
-		Debug::debugItem("send = %lx, recv = %lx", send, bufferRecv);
-    		socket->_RdmaBatchWrite(NodeID, (uint64_t)send, bufferRecv, size, 0, 1);
+		Debug::debugItem("send = %lx, recv = %lx", send, receive_real_Buffer);
+    		socket->_RdmaBatchWrite(NodeID, (uint64_t)send, receive_real_Buffer, size, 0, 1);
 		// socket->_RdmaBatchReceive(NodeID, mm, 0, 2);
 		socket->RdmaReceive(NodeID, mm + NodeID * 4096, 0);
 		// printf("process end\n");
