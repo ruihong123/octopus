@@ -223,7 +223,7 @@ bool HashTable::put(const char *path, uint64_t indexMeta, bool isDirectory)
                             itemsChained[index].indexNext = 0; /* Next item does not exist. */
                             itemsChained[index].indexMeta = indexMeta; /* Assign specific meta index. */
                             itemsChained[index].isDirectory = isDirectory; /* Assign state of directory. */
-                            UniqueHash hashUnique;
+//                            UniqueHash hashUnique;
                             HashTable::getUniqueHash(path, strlen(path), &hashUnique); /* Get unique hash. */
                             itemsChained[index].hashUnique = hashUnique; /* Assign unique hash of specific path. */
                             itemsChained[indexBeforeCurrent].indexNext = index; /* Finally fill the chained item into current last chained item. */

@@ -226,7 +226,7 @@ uint64_t RPCServer::ContractReceiveBuffer(GeneralSendBuffer *send, GeneralReceiv
 		case MESSAGE_GETATTR: {
 			GetAttributeReceiveBuffer *bufferRecv = 
 			(GetAttributeReceiveBuffer *)recv;
-			if (bufferRecv->attribute.count >= 0 && bufferRecv->attribute.count < MAX_FILE_EXTENT_COUNT)
+			if (bufferRecv->attribute.count < MAX_FILE_EXTENT_COUNT)
 				length = (MAX_FILE_EXTENT_COUNT - bufferRecv->attribute.count) * sizeof(FileMetaTuple);
 			else 
 				length = sizeof(FileMetaTuple) * MAX_FILE_EXTENT_COUNT;
@@ -235,7 +235,7 @@ uint64_t RPCServer::ContractReceiveBuffer(GeneralSendBuffer *send, GeneralReceiv
 		case MESSAGE_READDIR: {
 			ReadDirectoryReceiveBuffer *bufferRecv = 
 			(ReadDirectoryReceiveBuffer *)recv;
-			if (bufferRecv->list.count >= 0 && bufferRecv->list.count <= MAX_DIRECTORY_COUNT)
+			if (bufferRecv->list.count <= MAX_DIRECTORY_COUNT)
 				length = (MAX_DIRECTORY_COUNT - bufferRecv->list.count) * sizeof(DirectoryMetaTuple);
 			else 
 				length = MAX_DIRECTORY_COUNT * sizeof(DirectoryMetaTuple);
@@ -244,7 +244,7 @@ uint64_t RPCServer::ContractReceiveBuffer(GeneralSendBuffer *send, GeneralReceiv
 		case MESSAGE_EXTENTREAD: {
 			ExtentReadReceiveBuffer *bufferRecv = 
 			(ExtentReadReceiveBuffer *)recv;
-			if (bufferRecv->fpi.len >= 0 && bufferRecv->fpi.len <= MAX_MESSAGE_BLOCK_COUNT)
+			if (bufferRecv->fpi.len <= MAX_MESSAGE_BLOCK_COUNT)
 				length = (MAX_MESSAGE_BLOCK_COUNT - bufferRecv->fpi.len) * sizeof(file_pos_tuple);
 			else 
 				length = MAX_MESSAGE_BLOCK_COUNT * sizeof(file_pos_tuple);
@@ -253,7 +253,7 @@ uint64_t RPCServer::ContractReceiveBuffer(GeneralSendBuffer *send, GeneralReceiv
 		case MESSAGE_EXTENTWRITE: {
 			ExtentWriteReceiveBuffer *bufferRecv = 
 			(ExtentWriteReceiveBuffer *)recv;
-			if (bufferRecv->fpi.len >= 0 && bufferRecv->fpi.len <= MAX_MESSAGE_BLOCK_COUNT)
+			if (bufferRecv->fpi.len <= MAX_MESSAGE_BLOCK_COUNT)
 				length = (MAX_MESSAGE_BLOCK_COUNT - bufferRecv->fpi.len) * sizeof(file_pos_tuple);
 			else 
 				length = MAX_MESSAGE_BLOCK_COUNT * sizeof(file_pos_tuple);
@@ -262,7 +262,7 @@ uint64_t RPCServer::ContractReceiveBuffer(GeneralSendBuffer *send, GeneralReceiv
 		case MESSAGE_READDIRECTORYMETA: {
 			ReadDirectoryMetaReceiveBuffer *bufferRecv = 
 			(ReadDirectoryMetaReceiveBuffer *)recv;
-			if (bufferRecv->meta.count >= 0 && bufferRecv->meta.count <= MAX_DIRECTORY_COUNT)
+			if ( bufferRecv->meta.count <= MAX_DIRECTORY_COUNT)
 				length = (MAX_DIRECTORY_COUNT - bufferRecv->meta.count) * sizeof(DirectoryMetaTuple);
 			else 
 				length = MAX_DIRECTORY_COUNT * sizeof(DirectoryMetaTuple);

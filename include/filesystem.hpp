@@ -74,7 +74,7 @@ public:
     void updateRemoteMeta(uint16_t parentNodeID, DirectoryMeta *meta, uint64_t parentMetaAddress, uint64_t parentHashAddress);
     FileSystem(char *buffer, char *bufferBlock, uint64_t countFile, /* Constructor of file system. */
                uint64_t countDirectory, uint64_t countBlock, 
-               uint64_t countNode, NodeHash hashLocalNode); 
+               uint64_t countNode, NodeHash hashLocalnode);
     ~FileSystem();                      /* Destructor of file system. */
 };
 

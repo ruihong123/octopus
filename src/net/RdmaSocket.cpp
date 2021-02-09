@@ -675,7 +675,7 @@ void RdmaSocket::RdmaConnect() {
 				Debug::notifyError("Socket connection failed to servers");
 				return;
 			}
-			PeerSockData *peer = (PeerSockData *)malloc(sizeof(PeerSockData));
+			peer = (PeerSockData *)malloc(sizeof(PeerSockData));
 			peer->sock = sock;
 			peer->NodeID = kv.first;
 			if (ConnectQueuePair(peer) == false) {
@@ -1154,11 +1154,11 @@ int RdmaSocket::PollCompletion(uint16_t NodeID, int PollNumber, struct ibv_wc *w
     return count;
 }
 
-int RdmaSocket::PollWithCQ(int cqPtr, int PollNumber, struct ibv_wc *wc) {
+int RdmaSocket::PollWithCQ(int cqptr, int PollNumber, struct ibv_wc *wc) {
     int count = 0;
      
     do {
-        count += ibv_poll_cq(cq[cqPtr], 1, wc);
+        count += ibv_poll_cq(cq[cqptr], 1, wc);
     } while (count < PollNumber);
 
     if (count < 0) {
@@ -1177,8 +1177,8 @@ int RdmaSocket::PollWithCQ(int cqPtr, int PollNumber, struct ibv_wc *wc) {
     return count;
 }
 
-int RdmaSocket::PollOnce(int cqPtr, int PollNumber, struct ibv_wc *wc) {
-    int count = ibv_poll_cq(cq[cqPtr], PollNumber, wc);
+int RdmaSocket::PollOnce(int cqptr, int PollNumber, struct ibv_wc *wc) {
+    int count = ibv_poll_cq(cq[cqptr], PollNumber, wc);
     if (count == 0) {
         return 0;
     } else if (count < 0) {

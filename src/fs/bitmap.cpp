@@ -58,8 +58,7 @@ bool Bitmap::clear(uint64_t pos)
         if ((bytes[index] & (1 << (7 - offset))) != 0) { /* Judge if bit is set. */
             bytes[index] &= ~(1 << (7 - offset)); /* Clear bit in position. */
             varCountFree++;             /* Count of free bits increases. */
-        } else
-            ;                           /* Do nothing. */
+        } else{}/* Do nothing. */
         return true;                    /* Succeed in clearing bit. */
     } else
         return false;                   /* Fail in clearing bit. */

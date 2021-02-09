@@ -36,7 +36,7 @@ public:
     Table<Block> *tableBlock;           /* Block table. */
     NodeHash getNodeHash(UniqueHash *hashUnique); /* Get node hash by unique hash. */
     //NodeHash getNodeHash(const char *buffer); /* Get node hash. */
-    Storage(char *buffer, char *bufferBlock, uint64_t countFile, uint64_t countDirectory, uint64_t countBlock, uint64_t countNode); /* Constructor. */
+    Storage(char *buffer, char *bufferBlock, uint64_t countFile, uint64_t countDirectory, uint64_t countBlock, uint64_t countnode); /* Constructor. */
     ~Storage();                         /* Deconstructor. */
 };
 

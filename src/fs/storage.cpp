@@ -54,11 +54,11 @@ NodeHash Storage::getNodeHash(UniqueHash *hashUnique)
    @param   countFile       Max count of files.
    @param   countDirectory  Max count of directories.
    @param   countBlock      Max count of blocks.
-   @param   countNode       Count of nodes. */
-Storage::Storage(char *buffer, char* bufferBlock, uint64_t countFile, uint64_t countDirectory, uint64_t countBlock, uint64_t countNode)
+   @param   countnode       Count of nodes. */
+Storage::Storage(char *buffer, char* bufferBlock, uint64_t countFile, uint64_t countDirectory, uint64_t countBlock, uint64_t countnode)
 {
     if ((buffer == NULL) || (bufferBlock == NULL) || (countFile == 0) || (countDirectory == 0) ||
-        (countBlock == 0) || (countNode == 0)) {
+        (countBlock == 0) || (countnode == 0)) {
         fprintf(stderr, "Storage::Storage: parameter error.\n");
         exit(EXIT_FAILURE);             /* Exit due to parameter error. */
     } else {
@@ -73,7 +73,7 @@ Storage::Storage(char *buffer, char* bufferBlock, uint64_t countFile, uint64_t c
 
         tableBlock = new Table<Block>(bufferBlock, countBlock); /* Initialize block table. */
         
-        this->countNode = countNode;    /* Assign count of nodes. */
+        this->countNode = countnode;    /* Assign count of nodes. */
         sizeBufferUsed = hashtable->sizeBufferUsed + tableFileMeta->sizeBufferUsed + tableDirectoryMeta->sizeBufferUsed + tableBlock->sizeBufferUsed; /* Size of used bytes in buffer. */
     }
 }

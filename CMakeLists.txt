@@ -1,18 +1,21 @@
 cmake_minimum_required(VERSION 2.8.5 FATAL_ERROR)
-project(dmfs)
-
-# Compiler options
-set (CMAKE_C_FLAGS "-Wall -Wno-deprecated-declarations -Wsign-compare")
-set (CMAKE_CXX_FLAGS "-g ${CMAKE_C_FLAGS} -std=c++11 -Wall -O0 -DTHREAD -D_FILE_OFFSET_BITS=64 -lfuse")
-
-option (SANITIZE "Turn on sanitization" OFF)
-if (SANITIZE)
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
-endif()
-
-# Find 3rd party libs
-
-list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+#if (POLICY CMP0048)
+#    cmake_policy(SET CMP0048 NEW)
+#endif (POLICY CMP0048)
+#project(dmfs)
+#
+## Compiler options
+#set (CMAKE_C_FLAGS "-Wall -Wno-deprecated-declarations -Wsign-compare")
+#set (CMAKE_CXX_FLAGS "-g ${CMAKE_C_FLAGS} -std=c++11 -Wall -O0 -DTHREAD -D_FILE_OFFSET_BITS=64 -lfuse")
+#
+#option (SANITIZE "Turn on sanitization" OFF)
+#if (SANITIZE)
+#    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+#endif()
+#
+## Find 3rd party libs
+#
+#list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 find_package(ibverbs REQUIRED)
 #include_directories(${IBVERBS_INCLUDE_DIRS})
 link_libraries(${IBVERBS_LIBRARIES})
