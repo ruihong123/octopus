@@ -33,7 +33,7 @@ bool LockService::WriteUnlock(uint64_t key, uint16_t NodeID, uint64_t Address) {
 
 uint64_t LockService::ReadLock(uint16_t NodeID, uint64_t Address) {
     uint64_t LockAddress = MetaDataBaseAddress + Address;
-    uint64_t preNumber = __sync_fetch_and_add((uint64_t*)LockAddress, 1ULL);
+        uint64_t preNumber = __sync_fetch_and_add((uint64_t*)LockAddress, 1ULL);
     preNumber = preNumber >> 32;
     if (preNumber == 0) {
         return 1;

@@ -2352,14 +2352,14 @@ void FileSystem::rootInitialize(NodeHash LocalNode)
    @param   countDirectory      Max count of directory.
    @param   countBlock          Max count of blocks. 
    @param   countNode           Max count of nodes.
-   @param   hashLocalNode       Local node hash. From 1 to countNode. */
+   @param   hashlocalnode       Local node hash. From 1 to countNode. */
 FileSystem::FileSystem(char *buffer, char *bufferBlock, uint64_t countFile,
                        uint64_t countDirectory, uint64_t countBlock, 
-                       uint64_t countNode, NodeHash hashLocalNode)
+                       uint64_t countNode, NodeHash hashlocalnode)
 {
     if ((buffer == NULL) || (bufferBlock == NULL) || (countFile == 0) || (countDirectory == 0) ||
-        (countBlock == 0) || (countNode == 0) || (hashLocalNode < 1) || 
-        (hashLocalNode > countNode)) {
+        (countBlock == 0) || (countNode == 0) || (hashlocalnode < 1) ||
+        (hashlocalnode > countNode)) {
         fprintf(stderr, "FileSystem::FileSystem: parameter error.\n");
         exit(EXIT_FAILURE);             /* Exit due to parameter error. */
     } else {

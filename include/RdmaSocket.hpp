@@ -129,8 +129,8 @@ public:
 	void RdmaConnect();
 	/* Called to check completion of RDMA operations */
 	int PollCompletion(uint16_t NodeID, int PollNumber, struct ibv_wc *wc);
-	int PollWithCQ(int cqPtr, int PollNumber, struct ibv_wc *wc);
-	int PollOnce(int cqPtr, int PollNumber, struct ibv_wc *wc);
+	int PollWithCQ(int cqptr, int PollNumber, struct ibv_wc *wc);
+	int PollOnce(int cqptr, int PollNumber, struct ibv_wc *wc);
 	/* Used for synchronization based on socket communication */
 	void SyncTool(uint16_t NodeID);
 	int getCQCount();
