@@ -95,7 +95,7 @@ void write_test(int size, int op_time)
         cv.wait(l_s);
     }
     test_start = true;
-
+    cv.notify_all();
     l_s.unlock();
     std::unique_lock<mutex> l_e(finishmtx);
     while (thread_finish_num < thread_num) {
