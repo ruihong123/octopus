@@ -15,7 +15,7 @@
 #include <condition_variable>
 #include <mutex>
 
-#define BUFFER_SIZE 0x1000000
+#define BUFFER_SIZE 0x1000000 //4MB data
 #define THREAD_NUM 16
 int myid, file_seq;
 int numprocs;
@@ -47,6 +47,7 @@ int collect_time(int cost)
 }
 void nrfsWrite_test(nrfs fs, nrfsFile _file, const void* buffer, uint64_t size, uint64_t offset){
     std::unique_lock<std::mutex> lck_start(startmtx);
+    printf("thread ready\n");
     thread_ready_num++;
     while (!test_start){
         cv.wait(lck_start);
@@ -103,10 +104,11 @@ void write_test(int size, int op_time)
     cv.notify_all();
     l_s.unlock();
     std::unique_lock<mutex> l_e(finishmtx);
-    printf("thread has been issued.\n");
+
     while (thread_finish_num < thread_num) {
         cv.wait(l_e);
     }
+    printf("thread has finished.\n");
     l_e.unlock();
 //    for(i = 0; i < op_time; i++){
 //        t[i]->join();
