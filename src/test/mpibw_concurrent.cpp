@@ -50,6 +50,9 @@ void nrfsWrite_test(nrfs fs, nrfsFile _file, const void* buffer, uint64_t size, 
 
     thread_ready_num++;
     printf("thread ready %d\n", thread_ready_num);
+    if (thread_ready_num >= thread_num) {
+        cv.notify_all();
+    }
     while (!test_start){
         cv.wait(lck_start);
 
