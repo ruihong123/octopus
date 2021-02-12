@@ -16,10 +16,12 @@
 #include <mutex>
 
 #define BUFFER_SIZE 0x1000000
+#define THREAD_NUM 16
 int myid, file_seq;
 int numprocs;
 nrfs fs;
-char buf[16][BUFFER_SIZE];
+
+char buf[THREAD_NUM][BUFFER_SIZE];
 int mask = 0;
 int thread_num;
 bool test_start;
@@ -77,7 +79,7 @@ void write_test(int size, int op_time)
 	memset(buf, 'a', BUFFER_SIZE);
 
 	MPI_Barrier ( MPI_COMM_WORLD );
-    std::thread* t[10];
+    std::thread* t[op_time];
 	start = MPI_Wtime();
 	for(i = 0; i < op_time; i++)
 	{
@@ -87,6 +89,7 @@ void write_test(int size, int op_time)
 #ifdef TEST_NRFS_IO
         t[i] = new std::thread(nrfsWrite_test, fs, path, buf[i], size, 0);
        t[i]->detach();
+       printf("thread has been issued.\n");
 //		nrfsWrite(fs, path, buf[i], size, 0);
 #endif
 	}
