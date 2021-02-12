@@ -49,7 +49,7 @@ void nrfsWrite_test(nrfs fs, nrfsFile _file, const void* buffer, uint64_t size, 
     std::unique_lock<std::mutex> lck_start(startmtx);
 
     thread_ready_num++;
-    printf("thread ready %d\n", thread_num);
+    printf("thread ready %d\n", thread_ready_num);
     while (!test_start){
         cv.wait(lck_start);
 
