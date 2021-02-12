@@ -87,7 +87,7 @@ void write_test(int size, int op_time)
 
 	MPI_Barrier ( MPI_COMM_WORLD );
     std::thread* t[op_time];
-	start = MPI_Wtime();
+
 	for(i = 0; i < op_time; i++)
 	{
 #ifdef TEST_RAW_IO
@@ -105,7 +105,9 @@ void write_test(int size, int op_time)
         cv.wait(l_s);
     }
     test_start = true;
+    start = MPI_Wtime();
     cv.notify_all();
+
     l_s.unlock();
     std::unique_lock<mutex> l_e(finishmtx);
 
