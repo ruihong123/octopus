@@ -52,7 +52,9 @@ void nrfsWrite_test(nrfs fs, nrfsFile _file, const void* buffer, uint64_t size, 
         cv.wait(lck_start);
 
     }
+
     lck_start.unlock();
+    printf("thread start to write.\n");
     nrfsWrite(fs, _file, buffer, size, offset);
     std::unique_lock<std::mutex> lck_end(startmtx);
     thread_finish_num++;
@@ -101,6 +103,7 @@ void write_test(int size, int op_time)
     cv.notify_all();
     l_s.unlock();
     std::unique_lock<mutex> l_e(finishmtx);
+    printf("thread has been issued.\n");
     while (thread_finish_num < thread_num) {
         cv.wait(l_e);
     }
