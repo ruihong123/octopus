@@ -12,13 +12,22 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <thread>
+#include <condition_variable>
+#include <mutex>
 
 #define BUFFER_SIZE 0x1000000
 int myid, file_seq;
 int numprocs;
 nrfs fs;
-char buf[10][BUFFER_SIZE];
+char buf[16][BUFFER_SIZE];
 int mask = 0;
+int thread_num;
+bool test_start;
+int thread_ready_num = 0;
+int thread_finish_num = 0;
+std::mutex startmtx;
+std::mutex finishmtx;
+std::condition_variable cv;
 int collect_time(int cost)
 {
 	int i;
@@ -33,6 +42,23 @@ int collect_time(int cost)
 			max = *p;
 	}
 	return max;
+}
+void nrfsWrite_test(nrfs fs, nrfsFile _file, const void* buffer, uint64_t size, uint64_t offset){
+    std::unique_lock<std::mutex> lck_start(startmtx);
+    thread_ready_num++;
+    while (!test_start){
+        cv.wait(lck_start);
+
+    }
+    lck_start.unlock();
+    nrfsWrite(fs, _file, buffer, size, offset);
+    std::unique_lock<std::mutex> lck_end(startmtx);
+    thread_finish_num++;
+    if (thread_finish_num >= thread_num) {
+        cv.notify_all();
+    }
+    lck_end.unlock();
+
 }
 
 void write_test(int size, int op_time)
@@ -59,13 +85,26 @@ void write_test(int size, int op_time)
 		nrfsRawWrite(fs, path, buf, size, 0);
 #endif
 #ifdef TEST_NRFS_IO
-        t[i] = new std::thread(nrfsWrite, fs, path, buf[i], size, 0);
+        t[i] = new std::thread(nrfsWrite_test, fs, path, buf[i], size, 0);
+       t[i]->detach();
 //		nrfsWrite(fs, path, buf[i], size, 0);
 #endif
 	}
-    for(i = 0; i < op_time; i++){
-        t[i]->join();
+    std::unique_lock<mutex> l_s(startmtx);
+    while (thread_ready_num!= op_time){
+        cv.wait(l_s);
     }
+    test_start = true;
+
+    l_s.unlock();
+    std::unique_lock<mutex> l_e(finishmtx);
+    while (thread_finish_num < thread_num) {
+        cv.wait(l_e);
+    }
+    l_e.unlock();
+//    for(i = 0; i < op_time; i++){
+//        t[i]->join();
+//    }
 	end = MPI_Wtime();
 
 	MPI_Barrier ( MPI_COMM_WORLD );
@@ -157,6 +196,7 @@ int main(int argc, char **argv)
 	}
 	int block_size = atoi(argv[1]);
 	int op_time = atoi(argv[2]);
+    thread_num = op_time;
 	MPI_Init( &argc, &argv);
 	MPI_Comm_rank( MPI_COMM_WORLD, &myid );
 	MPI_Comm_size( MPI_COMM_WORLD, &numprocs );

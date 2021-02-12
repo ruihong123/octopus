@@ -15,7 +15,7 @@ using namespace std;
 
 nrfs fs;
 
-mutex mtx;
+mutex startmtx;
 
 static struct fuse_operations fuse_oper;
 
@@ -142,7 +142,7 @@ static int fuse_open(const char *path, struct fuse_file_info *fi)
 static int fuse_read(const char *path, char *buf, size_t size, off_t offset, struct fuse_file_info *fi)
 {
 	int res;
-	lock_guard<mutex> lock(mtx); 
+	lock_guard<mutex> lock(startmtx);
 	res = nrfsRead(fs, (nrfsFile)path, buf, (uint64_t)size, (uint64_t)offset);
 	printf("res = %d\n", res);
 	return res;
@@ -150,7 +150,7 @@ static int fuse_read(const char *path, char *buf, size_t size, off_t offset, str
 static int fuse_write(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi)
 {
 	int res;
-	lock_guard<mutex> lock(mtx); 
+	lock_guard<mutex> lock(startmtx);
 	res = nrfsWrite(fs, (nrfsFile)path, buf, (uint64_t)size, (uint64_t)offset);
 	return res;
 }

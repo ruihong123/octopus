@@ -15,6 +15,8 @@ int directory_num = 0;
 int tree_value = 2;
 int max_depth = 5;
 
+
+
 void create_directory(char* _path, int depth)
 {
 	char path[255];
@@ -152,7 +154,7 @@ void time_counter(double diff, int op_num)
 		num = (double)(op_num * numprocs) / time_cost;
 		rate = 1000000 * num;
 		printf("%d\t\t%d\t\t%.2f\n", op_num * numprocs, time_cost, rate);
-		//printf("%d dir created with time: %d, rate: %f\n", op_num * numprocs, time_cost, rate);
+		//printf("%d dir created with time: %d, rate: %f\n", thread_num * numprocs, time_cost, rate);
 	}
 }
 int main(int argc, char **argv)
