@@ -79,6 +79,8 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
 //	} else {
 //		// gettimeofday(&startt,NULL);
     while (recv->message != MESSAGE_RESPONSE) {
+        printf("recv message: %d\n", recv->message);
+        printf("lengthreceive: %d", lengthReceive);
 			/* gettimeofday(&endd,NULL);
 			diff = 1000000 * (endd.tv_sec - startt.tv_sec) + endd.tv_usec - startt.tv_usec;
 			if (diff > 1000000) {
