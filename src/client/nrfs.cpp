@@ -714,6 +714,7 @@ int nrfsDelete(nrfs fs, const char* _path)
 		}
 		result = 0;
 	}
+	printf("Delete is almost finished");
 	return result;
 }
 int nrfsFreeBlock(uint16_t nodeHash, uint64_t startBlock, uint64_t countBlock)
