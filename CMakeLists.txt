@@ -3,7 +3,7 @@ project(dmfs)
 
 # Compiler options
 set (CMAKE_C_FLAGS "-Wall -Wno-deprecated-declarations -Wsign-compare")
-set (CMAKE_CXX_FLAGS "-g ${CMAKE_C_FLAGS} -std=c++11 -W -Wall -Wextra -O0 -DTHREAD -D_FILE_OFFSET_BITS=64 -lfuse")
+set (CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++11 -W -Wall -Wextra -O0 -DTHREAD -D_FILE_OFFSET_BITS=64 -lfuse")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wextra -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wsign-compare -Wshadow -Wno-unused-parameter -Wno-unused-variable -Woverloaded-virtual -Wnon-virtual-dtor -Wno-missing-field-initializers -Wno-strict-aliasing")
 option (SANITIZE "Turn on sanitization" OFF)
