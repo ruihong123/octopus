@@ -720,7 +720,7 @@ int nrfsDelete(nrfs fs, const char* _path)
 	return result;
 }
 int nrfsFreeBlock(uint16_t nodeHash, uint64_t startBlock, uint64_t countBlock)
-{
+{   Debug::debugTitle("nrfsFreeBlock");
 	BlockFreeSendBuffer bufferSend;
 	GeneralReceiveBuffer bufferReceive;
 	bufferSend.message = MESSAGE_FREEBLOCK;
@@ -728,6 +728,7 @@ int nrfsFreeBlock(uint16_t nodeHash, uint64_t startBlock, uint64_t countBlock)
 	bufferSend.countBlock = countBlock;
 	sendMessage(nodeHash, &bufferSend, sizeof(BlockFreeSendBuffer), 
 					&bufferReceive, sizeof(GeneralReceiveBuffer));
+	printf("nrfs Free Block message sent");
 	if(bufferReceive.result == false) {
 		return 1;
 	} else {
