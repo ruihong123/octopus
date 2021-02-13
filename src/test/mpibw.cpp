@@ -1,7 +1,7 @@
 #ifndef __USE_FILE_OFFSET64
 #define __USE_FILE_OFFSET64
 #endif
-#define TEST_NRFS_IO test
+#define TEST_NRFS_IO
 //#define TEST_RAW_IO
 #include "mpi.h"
 #include "nrfs.h"
@@ -53,9 +53,9 @@ void write_test(int size, int op_time)
     start = MPI_Wtime();
     for(i = 0; i < op_time; i++)
     {
-#ifdef TEST_RAW_IO
-        nrfsRawWrite(fs, path, buf, size, 0);
-#endif
+//#ifdef TEST_RAW_IO
+//        nrfsRawWrite(fs, path, buf, size, 0);
+//#endif
 #ifdef TEST_NRFS_IO
         nrfsWrite(fs, path, buf, size, 0);
 #endif
@@ -102,9 +102,9 @@ void read_test(int size, int op_time)
     start = MPI_Wtime();
     for(i = 0; i < op_time; i++)
     {
-#ifdef TEST_RAW_IO
-        nrfsRawRead(fs, path, buf, size, 0);
-#endif
+//#ifdef TEST_RAW_IO
+//        nrfsRawRead(fs, path, buf, size, 0);
+//#endif
 #ifdef TEST_NRFS_IO
         nrfsRead(fs, path, buf, size, 0);
 #endif
