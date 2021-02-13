@@ -705,10 +705,11 @@ int nrfsDelete(nrfs fs, const char* _path)
 		Debug::notifyError("Remove file failed.");
 		result = 1;
 	} else if (bufferReceive.attribute.count != MAX_FILE_EXTENT_COUNT) {
-        printf("Delete attibute count overflow : count: %d", bufferReceive.attribute.count);
+
 		for (uint64_t i = 0; i < bufferReceive.attribute.count; i++) {
 			if (((uint16_t)(bufferReceive.attribute.tuple[i].hashNode) != node_id) && (bufferReceive.attribute.tuple[i].hashNode != 0)) {
-				nrfsFreeBlock((uint16_t)(bufferReceive.attribute.tuple[i].hashNode),
+                printf("Delete attibute count overflow : hash node", bufferReceive.attribute.tuple[i].hashNode);
+			    nrfsFreeBlock((uint16_t)(bufferReceive.attribute.tuple[i].hashNode),
 						bufferReceive.attribute.tuple[i].indexExtentStartBlock, 
 						bufferReceive.attribute.tuple[i].countExtentBlock);
 			}
