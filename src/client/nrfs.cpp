@@ -705,6 +705,7 @@ int nrfsDelete(nrfs fs, const char* _path)
 		Debug::notifyError("Remove file failed.");
 		result = 1;
 	} else if (bufferReceive.attribute.count != MAX_FILE_EXTENT_COUNT) {
+        printf("Delete attibute count overflow : count: %d", bufferReceive.attribute.count);
 		for (uint64_t i = 0; i < bufferReceive.attribute.count; i++) {
 			if (((uint16_t)(bufferReceive.attribute.tuple[i].hashNode) != node_id) && (bufferReceive.attribute.tuple[i].hashNode != 0)) {
 				nrfsFreeBlock((uint16_t)(bufferReceive.attribute.tuple[i].hashNode),
@@ -714,7 +715,7 @@ int nrfsDelete(nrfs fs, const char* _path)
 		}
 		result = 0;
 	}
-	printf("Delete is almost finished");
+
 	return result;
 }
 int nrfsFreeBlock(uint16_t nodeHash, uint64_t startBlock, uint64_t countBlock)
