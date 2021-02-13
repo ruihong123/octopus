@@ -425,7 +425,7 @@ bool FileSystem::addMetaToDirectory(const char *path, const char *name, bool isD
     HashTable::getUniqueHash(path, strlen(path), &hashUnique); /* Get unique hash. */
     NodeHash hashNode = storage->getNodeHash(&hashUnique); /* Get node hash by unique hash. */
     AddressHash hashAddress = HashTable::getAddressHash(&hashUnique); /* Get address hash by unique hash. */
-    uint64_t LocalTxID;
+    uint64_t LocalTxID = 0;
     if (checkLocal(hashNode) == true) { /* If local node. */
         // return true;
         bool result;
@@ -511,7 +511,7 @@ bool FileSystem::removeMetaFromDirectory(const char *path, const char *name,
     HashTable::getUniqueHash(path, strlen(path), &hashUnique); /* Get unique hash. */
     NodeHash hashNode = storage->getNodeHash(&hashUnique); /* Get node hash by unique hash. */
     AddressHash hashAddress = HashTable::getAddressHash(&hashUnique); /* Get address hash by unique hash. */
-    uint64_t LocalTxID;
+    uint64_t LocalTxID = 0;
     if (checkLocal(hashNode) == true) { /* If local node. */
         bool result;
         *key = lockWriteHashItem(hashNode, hashAddress); /* Lock hash item. */
@@ -1410,9 +1410,9 @@ void FileSystem::fillFilePositionInformation(uint64_t size, uint64_t offset, fil
     uint64_t offsetStart, offsetEnd;
     offsetStart = offset;  /* Relative offset of start byte to operate in file. */
     offsetEnd = size + offset - 1; /* Relative offset of end byte to operate in file. */
-    uint64_t boundStartExtent, boundEndExtent, /* Bound of start extent and end extent. */
-             offsetInStartExtent, offsetInEndExtent, /* Offset of start byte in start extent and end byte in end extent. */
-             sizeInStartExtent, sizeInEndExtent; /* Size to operate in start extent and end extent. */
+    uint64_t boundStartExtent = 0, boundEndExtent = 0, /* Bound of start extent and end extent. */
+             offsetInStartExtent = 0, offsetInEndExtent = 0, /* Offset of start byte in start extent and end byte in end extent. */
+             sizeInStartExtent = 0, sizeInEndExtent = 0; /* Size to operate in start extent and end extent. */
     uint64_t offsetStartOfCurrentExtent = 0; /* Relative offset of start byte in current extent. */
     Debug::debugItem("Stage 9.");
     for (uint64_t i = 0; i < metaFile->count; i++) {
@@ -2107,8 +2107,8 @@ bool FileSystem::remove2pc(const char *path, FileMeta *metaFile)
         HashTable::getUniqueHash(path, strlen(path), &hashUnique); /* Get unique hash. */
         NodeHash hashNode = storage->getNodeHash(&hashUnique); /* Get node hash by unique hash. */
         AddressHash hashAddress = HashTable::getAddressHash(&hashUnique); /* Get address hash by unique hash. */
-        uint64_t DistributedTxID;
-        uint64_t LocalTxID;
+        uint64_t DistributedTxID = 0;
+        uint64_t LocalTxID = 0;
         uint64_t RemoteTxID, srcBuffer, desBuffer, size, remotekey, offset;
         if (checkLocal(hashNode) == true) { /* If local node. */
             bool result;

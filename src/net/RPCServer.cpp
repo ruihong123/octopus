@@ -103,7 +103,7 @@ void RPCServer::RequestPoller(int id) {
 		if (NodeID > 0 && NodeID <= ServerCount) {
 			/* Recv Message From Other Server. */
 			bufferRecv = mem->getServerRecvAddress(NodeID, offset);
-		} else if (NodeID > ServerCount) {
+		} else {
 			/* Recv Message From Client. */
 			bufferRecv = mem->getClientMessageAddress(NodeID);
 		}
