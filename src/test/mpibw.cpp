@@ -163,6 +163,6 @@ int main(int argc, char **argv)
     sprintf(path, "/file_%d", myid);
     nrfsDelete(fs, path);
     nrfsDisconnect(fs);
-
+    printf("all function finsihed");
     MPI_Finalize();
 }
