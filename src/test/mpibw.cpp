@@ -1,7 +1,7 @@
 #ifndef __USE_FILE_OFFSET64
 #define __USE_FILE_OFFSET64
 #endif
- #define TEST_NRFS_IO
+#define TEST_NRFS_IO test
 //#define TEST_RAW_IO
 #include "mpi.h"
 #include "nrfs.h"
