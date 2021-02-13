@@ -726,9 +726,9 @@ int nrfsFreeBlock(uint16_t nodeHash, uint64_t startBlock, uint64_t countBlock)
 	bufferSend.message = MESSAGE_FREEBLOCK;
 	bufferSend.startBlock = startBlock;
 	bufferSend.countBlock = countBlock;
-	sendMessage(nodeHash, &bufferSend, sizeof(BlockFreeSendBuffer), 
+	sendMessage(nodeHash, &bufferSend, sizeof(BlockFreeSendBuffer),
 					&bufferReceive, sizeof(GeneralReceiveBuffer));
-	printf("nrfs Free Block message sent");
+    Debug::debugItem("nrfs Free Block message sent after");
 	if(bufferReceive.result == false) {
 		return 1;
 	} else {
