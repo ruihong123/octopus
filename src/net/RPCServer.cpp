@@ -199,7 +199,7 @@ void RPCServer::ProcessRequest(GeneralSendBuffer *send, uint16_t NodeID, uint16_
     	}
 	Debug::debugItem("Copy Reply Data, size = %d.", size);
     	//move the contents in receive buff to the send buff,
-    	// because only sned buff is RDMA registerd.
+    	// because only send buff is RDMA registerd.
     	memcpy((void *)send, receive_temp_Buffer, size);
 	Debug::debugItem("Select Buffer.");
     	if (NodeID > 0 && NodeID <= ServerCount) {
@@ -207,7 +207,7 @@ void RPCServer::ProcessRequest(GeneralSendBuffer *send, uint16_t NodeID, uint16_
 			receive_real_Buffer = receive_real_Buffer - mm;
 		} else if (NodeID > ServerCount) {
 			/* Recv Message From Client. */
-			receive_real_Buffer = 0;
+			receive_real_Buffer = 0;// It just means that the beggining of the message pool.
 		} 
 		Debug::debugItem("send = %lx, recv = %lx", send, receive_real_Buffer);
     		socket->_RdmaBatchWrite(NodeID, (uint64_t)send, receive_real_Buffer, size, 0, 1);

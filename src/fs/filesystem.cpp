@@ -326,6 +326,30 @@ void FileSystem::parseMessage(char *bufferRequest, char *bufferResponse)
             unlockWriteHashItem(bufferReceive->key, (NodeHash)bufferSend->sourceNodeID, (AddressHash)(bufferReceive->offset));
             break;
         }
+        case MESSAGE_RAWWRITE:
+        {
+            ExtentWriteSendBuffer *bufferSend =
+                    (ExtentWriteSendBuffer *)bufferGeneralSend;
+            ExtentWriteReceiveBuffer *bufferReceive =
+                    (ExtentWriteReceiveBuffer *)bufferGeneralReceive;
+            bufferReceive->result = extentWrite(bufferSend->path,
+                bufferSend->size, bufferSend->offset, &(bufferReceive->fpi),
+                &(bufferReceive->offset), &(bufferReceive->key));
+            unlockWriteHashItem(bufferReceive->key, (NodeHash)bufferSend->sourceNodeID, (AddressHash)(bufferReceive->offset));
+            break;
+        }
+        case MESSAGE_RAWREAD:
+        {
+            ExtentReadSendBuffer *bufferSend =
+                    (ExtentReadSendBuffer *)bufferGeneralSend;
+            ExtentReadReceiveBuffer *bufferReceive =
+                    (ExtentReadReceiveBuffer *)bufferGeneralReceive;
+            bufferReceive->result = extentRead(bufferSend->path,
+                                               bufferSend->size, bufferSend->offset, &(bufferReceive->fpi),
+                                               &(bufferReceive->offset), &(bufferReceive->key));
+            unlockReadHashItem(bufferReceive->key, (NodeHash)bufferSend->sourceNodeID, (AddressHash)(bufferReceive->offset));
+            break;
+        }
         case MESSAGE_UPDATEMETA:
         {
             // UpdateMetaSendBuffer *bufferSend = 
@@ -379,30 +403,6 @@ void FileSystem::parseMessage(char *bufferRequest, char *bufferResponse)
             RenameSendBuffer *bufferSend = 
                 (RenameSendBuffer *)bufferGeneralSend;
             bufferGeneralReceive->result = rename(bufferSend->pathOld, bufferSend->pathNew);
-            break;
-        }
-        case MESSAGE_RAWWRITE:
-        {
-            ExtentWriteSendBuffer *bufferSend = 
-                (ExtentWriteSendBuffer *)bufferGeneralSend;
-            ExtentWriteReceiveBuffer *bufferReceive = 
-                (ExtentWriteReceiveBuffer *)bufferGeneralReceive;
-            bufferReceive->result = extentWrite(bufferSend->path, 
-                bufferSend->size, bufferSend->offset, &(bufferReceive->fpi), 
-                &(bufferReceive->offset), &(bufferReceive->key));
-            unlockWriteHashItem(bufferReceive->key, (NodeHash)bufferSend->sourceNodeID, (AddressHash)(bufferReceive->offset));
-            break;
-        }
-        case MESSAGE_RAWREAD:
-        {
-            ExtentReadSendBuffer *bufferSend = 
-                (ExtentReadSendBuffer *)bufferGeneralSend;
-            ExtentReadReceiveBuffer *bufferReceive = 
-                (ExtentReadReceiveBuffer *)bufferGeneralReceive;
-            bufferReceive->result = extentRead(bufferSend->path, 
-                bufferSend->size, bufferSend->offset, &(bufferReceive->fpi),
-                 &(bufferReceive->offset), &(bufferReceive->key));
-            unlockReadHashItem(bufferReceive->key, (NodeHash)bufferSend->sourceNodeID, (AddressHash)(bufferReceive->offset));
             break;
         }
         default:
