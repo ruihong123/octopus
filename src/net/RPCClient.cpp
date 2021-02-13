@@ -75,12 +75,10 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
 	}
 	socket->_RdmaBatchWrite(DesNodeID, sendBuffer, remoteRecvBuffer, lengthSend, imm, 1);
 	if (isServer) {
-		while (recv->message == MESSAGE_INVALID || recv->message != MESSAGE_RESPONSE)
-			;
+		while (recv->message == MESSAGE_INVALID || recv->message != MESSAGE_RESPONSE){}
 	} else {
 		// gettimeofday(&startt,NULL);
 		while (recv->message != MESSAGE_RESPONSE) {
-			;
 			/* gettimeofday(&endd,NULL);
 			diff = 1000000 * (endd.tv_sec - startt.tv_sec) + endd.tv_usec - startt.tv_usec;
 			if (diff > 1000000) {
