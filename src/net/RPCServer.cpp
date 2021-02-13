@@ -183,13 +183,16 @@ void RPCServer::ProcessRequest(GeneralSendBuffer *send, uint16_t NodeID, uint16_
     	// fs->recursivereaddir("/", 0);
 	Debug::debugItem("Contract Receive Buffer, size = %d.", size);
 	size -= ContractReceiveBuffer(send, recv);
+
     	if (send->message == MESSAGE_RAWREAD) {
+            Debug::debugItem("go into the raw read message");
     		ExtentReadSendBuffer *bufferSend = (ExtentReadSendBuffer *)send;
     		uint64_t *value = (uint64_t *)mem->getDataAddress();
     		// printf("rawread size = %d\n", (int)bufferSend->size);
     		*value = 1;
     		socket->RdmaWrite(NodeID, mem->getDataAddress(), 2 * 4096, bufferSend->size, -1, 1);
     	} else if (send->message == MESSAGE_RAWWRITE) {
+            Debug::debugItem("go into the raw write message");
     		ExtentWriteSendBuffer *bufferSend = (ExtentWriteSendBuffer *)send;
     		// printf("rawwrite size = %d\n", (int)bufferSend->size);
     		uint64_t *value = (uint64_t *)mem->getDataAddress();
