@@ -84,6 +84,7 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
 //    asm volatile ("sfence\n" : : );
 //    asm volatile ("lfence\n" : : );
     usleep(10);
+    _mm_clflush(recv);
     while (1) {
         if(recv->message == MESSAGE_RESPONSE)
             break;
