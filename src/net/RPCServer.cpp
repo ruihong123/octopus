@@ -213,7 +213,7 @@ void RPCServer::ProcessRequest(GeneralSendBuffer *send, uint16_t NodeID, uint16_
 			receive_real_Buffer = 0;// It just means that the beggining of the message pool.
 		} 
 		Debug::debugItem("send = %lx, recv = %lx", send, receive_real_Buffer);
-    	printf("message content: %s",recv);
+
     		socket->_RdmaBatchWrite(NodeID, (uint64_t)send, receive_real_Buffer, size, 0, 1);
 		// socket->_RdmaBatchReceive(NodeID, mm, 0, 2);
 		socket->RdmaReceive(NodeID, mm + NodeID * 4096, 0);
