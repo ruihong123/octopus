@@ -100,10 +100,11 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
 				diff = 0;
 			}*/
     }
-    printf("out side while loop recv: message %u", recv->message);
+
 //	}
 	memcpy((void*)outerReceive, (void *)receiveBuffer, lengthReceive);
     asm volatile ("sfence\n" : : );
+    printf("out side while loop recv: message %u", recv->message);
     printf("out side while loop outerReceive: message %u", ((GeneralSendBuffer*)outerReceive)->message);
 	printf("length Receive %d", lengthReceive);
     return true;
