@@ -708,8 +708,8 @@ int nrfsDelete(nrfs fs, const char* _path)
 
 		for (uint64_t i = 0; i < bufferReceive.attribute.count; i++) {
 			if (((uint16_t)(bufferReceive.attribute.tuple[i].hashNode) != node_id) && (bufferReceive.attribute.tuple[i].hashNode != 0)) {
-                printf("Delete attibute count overflow :count %lu hash node %lu", bufferReceive.attribute.count, bufferReceive.attribute.tuple[i].hashNode);
-			    nrfsFreeBlock((uint16_t)(bufferReceive.attribute.tuple[i].hashNode),
+                printf("Delete attibute count overflow :message %d count %lu hash node %lu", bufferReceive.message, bufferReceive.attribute.count, bufferReceive.attribute.tuple[i].hashNode);
+                nrfsFreeBlock((uint16_t)(bufferReceive.attribute.tuple[i].hashNode),
 						bufferReceive.attribute.tuple[i].indexExtentStartBlock,
 						bufferReceive.attribute.tuple[i].countExtentBlock);
 			}
