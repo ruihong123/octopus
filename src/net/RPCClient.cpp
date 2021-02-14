@@ -104,7 +104,8 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
 //	}
 	memcpy((void*)bufferReceive, (void *)receiveBuffer, lengthReceive);
     printf("out side while loop bufferReceive: message %u", ((GeneralSendBuffer*)bufferReceive)->message);
-	return true;
+	printf("length Receive %d", lengthReceive);
+    return true;
 }
 
 uint64_t RPCClient::ContractSendBuffer(GeneralSendBuffer *send) {
