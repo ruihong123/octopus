@@ -83,7 +83,7 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
     Debug::debugItem("Come to the while loop");
 //    asm volatile ("sfence\n" : : );
 //    asm volatile ("lfence\n" : : );
-//    usleep(10);
+    usleep(10);
     while (1) {
         if(recv->message != MESSAGE_RESPONSE)
             break;
