@@ -97,7 +97,7 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
 				diff = 0;
 			}*/
     }
-    usleep(1);
+    usleep(10);
 //	}
 	memcpy((void*)bufferReceive, (void *)receiveBuffer, lengthReceive);
 	return true;
