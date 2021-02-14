@@ -383,6 +383,7 @@ void FileSystem::parseMessage(char *bufferRequest, char *bufferResponse)
                 (GetAttributeReceiveBuffer *)bufferGeneralReceive;
             bufferReceive->result = remove(bufferGeneralSend->path, &(bufferReceive->attribute));
             printf("file attribute count %lu", bufferReceive->attribute.count);
+            printf("message content %s", bufferReceive);
             break;
         }
         case MESSAGE_FREEBLOCK:
