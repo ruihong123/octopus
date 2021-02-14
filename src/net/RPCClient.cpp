@@ -87,7 +87,7 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
 //    for (i=0; i<100000000; i++);
 //
     while (1) {
-        _mm_clflush(recv);
+//        _mm_clflush(recv);
         if(recv->message == MESSAGE_RESPONSE)
             break;
 //        i++; //this i++ is neccessary otherwise the program will be stuck here.
