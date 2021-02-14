@@ -79,12 +79,12 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
 //		while (recv->message != MESSAGE_RESPONSE){}
 //	} else {
 //		// gettimeofday(&startt,NULL);
-//    int i = 0;
+    int i = 0;
     Debug::debugItem("Come to the while loop");
     usleep(10);
     while (recv->message != MESSAGE_RESPONSE) {
 
-//        i++; //this i++ is neccessary otherwise the program will be stuck here.
+        i++; //this i++ is neccessary otherwise the program will be stuck here.
 //        printf("recv message: %d\n", recv->message);
 //        printf("lengthreceive: %d", lengthReceive);
 			/* gettimeofday(&endd,NULL);
