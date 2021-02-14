@@ -61,6 +61,7 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
 		recv->message = MESSAGE_INVALID;
 	memcpy((void *)sendBuffer, (void *)bufferSend, lengthSend);
 	_mm_clflush(recv);
+	//sfence: make sure all the store asm befoer this will happen before all the store asm after this.
 	asm volatile ("sfence\n" : : );
 	temp = (uint32_t)offset;
 	imm = imm + (temp << 16);
@@ -96,6 +97,7 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
 				diff = 0;
 			}*/
     }
+    usleep(1);
 //	}
 	memcpy((void*)bufferReceive, (void *)receiveBuffer, lengthReceive);
 	return true;

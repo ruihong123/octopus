@@ -710,7 +710,7 @@ int nrfsDelete(nrfs fs, const char* _path)
 			if (((uint16_t)(bufferReceive.attribute.tuple[i].hashNode) != node_id) && (bufferReceive.attribute.tuple[i].hashNode != 0)) {
                 printf("Delete attibute count overflow : hash node %lu", bufferReceive.attribute.tuple[i].hashNode);
 			    nrfsFreeBlock((uint16_t)(bufferReceive.attribute.tuple[i].hashNode),
-						bufferReceive.attribute.tuple[i].indexExtentStartBlock, 
+						bufferReceive.attribute.tuple[i].indexExtentStartBlock,
 						bufferReceive.attribute.tuple[i].countExtentBlock);
 			}
 		}
