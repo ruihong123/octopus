@@ -1982,6 +1982,7 @@ bool FileSystem::removecd(const char *path, FileMeta *metaFile)
                             } else {
                                 // DistributedTxID = TxDistributedBegin();
                                 LocalTxID = TxLocalBegin();
+                                Debug::debugItem("Transaction begin");
                             	if (readDirectoryMeta(parent, &parentMeta, &parentHashAddress, &parentMetaAddress, &parentNodeID) == false) {
                             		Debug::notifyError("Remove Meta From Directory failed.");
                                     // TxDistributedPrepare(DistributedTxID, false);
@@ -2052,6 +2053,7 @@ bool FileSystem::removecd(const char *path, FileMeta *metaFile)
                         		/* Only allocate momery, write to log first. */
 								bool resultFor = true;
 	                            Debug::debugItem("Stage 3. Remove blocks.");
+
 	                            for (uint64_t i = 0; (i < metaFile->count) && (metaFile->tuple[i].hashNode == hashNode); i++) {
 	                                for (int j = (int)(metaFile->tuple[i].countExtentBlock) - 1; j >= 0; j--) {
 	                                    if (storage->tableBlock->remove(metaFile->tuple[i].indexExtentStartBlock + j) == false) {
