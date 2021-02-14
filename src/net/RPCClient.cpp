@@ -81,7 +81,8 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
 //		// gettimeofday(&startt,NULL);
     int i = 0;
     Debug::debugItem("Come to the while loop");
-
+    asm volatile ("sfence\n" : : );
+    asm volatile ("lfence\n" : : );
     usleep(10);
     while (recv->message != MESSAGE_RESPONSE) {
 
@@ -103,7 +104,7 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
 
 //	}
 	memcpy((void*)outerReceive, (void *)receiveBuffer, lengthReceive);
-    asm volatile ("sfence\n" : : );
+
     printf("out side while loop recv: message %u", recv->message);
     printf("out side while loop outerReceive: message %u", ((GeneralSendBuffer*)outerReceive)->message);
 //	printf("length Receive %d", lengthReceive);
