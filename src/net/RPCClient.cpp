@@ -34,7 +34,7 @@ Configuration* RPCClient::getConfInstance() {
 	return conf;
 }
 
-bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSend, char *bufferReceive, uint64_t lengthReceive) {
+bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSend, char *outerReceive, uint64_t lengthReceive) {
 	uint32_t ID = __sync_fetch_and_add( &taskID, 1 ), temp;
 	uint64_t sendBuffer, receiveBuffer, remoteRecvBuffer;
 	uint16_t offset = 0;
@@ -81,7 +81,7 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
 //		// gettimeofday(&startt,NULL);
     int i = 0;
     Debug::debugItem("Come to the while loop");
-    asm volatile ("sfence\n" : : );
+
     usleep(10);
     while (recv->message != MESSAGE_RESPONSE) {
 
@@ -102,8 +102,9 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
     }
     printf("out side while loop recv: message %u", recv->message);
 //	}
-	memcpy((void*)bufferReceive, (void *)receiveBuffer, lengthReceive);
-    printf("out side while loop bufferReceive: message %u", ((GeneralSendBuffer*)bufferReceive)->message);
+	memcpy((void*)outerReceive, (void *)receiveBuffer, lengthReceive);
+    asm volatile ("sfence\n" : : );
+    printf("out side while loop outerReceive: message %u", ((GeneralSendBuffer*)outerReceive)->message);
 	printf("length Receive %d", lengthReceive);
     return true;
 }
