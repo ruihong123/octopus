@@ -85,7 +85,7 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
 //    asm volatile ("lfence\n" : : );
     usleep(10);
     while (1) {
-        if(recv->message != MESSAGE_RESPONSE)
+        if(recv->message == MESSAGE_RESPONSE)
             break;
 //        i++; //this i++ is neccessary otherwise the program will be stuck here.
 //        printf("recv message: %d\n", recv->message);
