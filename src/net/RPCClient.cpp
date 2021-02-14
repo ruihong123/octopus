@@ -81,6 +81,7 @@ bool RPCClient::RdmaCall(uint16_t DesNodeID, char *bufferSend, uint64_t lengthSe
 //		// gettimeofday(&startt,NULL);
     int i = 0;
     Debug::debugItem("Come to the while loop");
+    asm volatile ("sfence\n" : : );
     usleep(10);
     while (recv->message != MESSAGE_RESPONSE) {
 
